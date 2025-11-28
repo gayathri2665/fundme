@@ -12,39 +12,41 @@ export function Auth() {
   const [role, setRole] = useState<'entrepreneur' | 'investor' | 'freelancer'>('entrepreneur');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signUp, signIn } = useAuth();
+  useAuth();
   const navigate = useNavigate();
-  const [step, setStep] = useState(1);
+  const [step] = useState(1);
 
-  const handleAuthSuccess = () => {
-    if (role === 'investor') {
-      setStep(2);
-    } else {
-      navigate('/dashboard');
+  const handleAuthSuccess = (userRole: string) => {
+    switch (userRole) {
+      case 'entrepreneur':
+        navigate('/entrepreneur');
+        break;
+      case 'investor':
+        navigate('/investor');
+        break;
+      case 'freelancer':
+        navigate('/freelancer');
+        break;
+      default:
+        navigate('/dashboard'); // Fallback
     }
-  };
-
-  const handleInvestorStepComplete = () => {
-    navigate('/dashboard');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    if (isSignUp && (!email || !password || !fullName || !role)) {
+      setError('Email, password, full name, and role are required.');
+      return;
+    }
+
     setLoading(true);
 
-    try {
-      if (isSignUp) {
-        await signUp(email, password);
-      } else {
-        await signIn(email, password);
-      }
-      handleAuthSuccess();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-    } finally {
-      setLoading(false);
-    }
+    // Mock authentication: Directly navigate to dashboard
+    // as per GEMINI.md: "The 'Create Account' and 'Sign In' buttons now navigate to the dashboard without requiring authentication."
+    handleAuthSuccess(role); // Use the selected role for navigation
+    setLoading(false);
   };
 
   return (
@@ -92,6 +94,7 @@ export function Auth() {
                         <button
                           key={r}
                           type="button"
+                      
                           onClick={() => setRole(r)}
                           className={`p-3 rounded-lg border-2 transition-all text-sm font-medium flex items-center justify-center gap-2 ${
                             role === r
