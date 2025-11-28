@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Lightbulb, ArrowRight, TrendingUp, Users, Zap, Shield, X, MessageSquare } from 'lucide-react';
+import { Lightbulb, ArrowRight, TrendingUp, Users, Zap, Shield, X, MessageSquare, Rocket, Share2 } from 'lucide-react';
 
 const features = [
   { 
@@ -9,9 +9,19 @@ const features = [
     desc: 'Launch your campaign in minutes with a simple, guided setup.' 
   },
   { 
+    icon: Rocket, 
+    title: 'Campaign Management', 
+    desc: 'Manage your campaign milestones and updates all in one place.' 
+  },
+  { 
     icon: Users, 
     title: 'Global Network', 
     desc: 'Connect with investors and innovators from around the world.' 
+  },
+  { 
+    icon: Share2, 
+    title: 'Networking', 
+    desc: 'Build relationships with mentors, advisors, and other founders.' 
   },
   { 
     icon: TrendingUp, 
@@ -102,7 +112,7 @@ export function Landing() {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-4 gap-6 mb-20">
+        <div className="grid md:grid-cols-3 gap-6 mb-20">
           {features.map((feature, i) => (
             <div 
               key={i} 
@@ -144,12 +154,6 @@ export function Landing() {
           <p className="text-text-secondary mb-8 max-w-xl mx-auto">
             Whether you're an entrepreneur with a groundbreaking idea or an investor looking for the next big opportunity, FundMeUp is your platform.
           </p>
-          <button
-            onClick={() => navigate('/auth')}
-            className="px-8 py-3 bg-primary-accent hover:bg-secondary-accent text-white rounded-lg font-semibold transition-colors"
-          >
-            Join FundMeUp Today
-          </button>
         </div>
 
         {/* Testimonials Section */}
