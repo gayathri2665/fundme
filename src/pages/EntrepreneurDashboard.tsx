@@ -1,70 +1,67 @@
 import React, { useMemo, useState } from "react";
-
+import { FiSearch, FiUsers, FiBriefcase, FiPlus, FiStar, FiMoreVertical } from "react-icons/fi";
 import { motion } from "framer-motion";
-import { FiSearch, FiUsers, FiGithub, FiStar } from "react-icons/fi";
 
 export default function EntrepreneurDashboard() {
-  const founders = [
+  const teamMembers = useMemo(() => [
     {
-      id: "f1",
-      name: "Asha Rao",
-      role: "Co-founder & CEO",
-      avatar: "AR",
-      achievements: [
-        "Raised ₹50L seed round",
-        "Featured in Startup50 2024",
-        "Scaled MRR 5x in 12 months",
-      ],
+      id: "t1",
+      name: "Elena Petrova",
+      role: "Lead Designer",
+      avatar: "EP",
+      email: "elena@example.com",
     },
     {
-      id: "f2",
-      name: "Manish Verma",
-      role: "CTO",
-      avatar: "MV",
-      achievements: [
-        "Architected microservices platform",
-        "Open-sourced internal infra tooling",
-      ],
+      id: "t2",
+      name: "David Lee",
+      role: "Backend Engineer",
+      avatar: "DL",
+      email: "david@example.com",
     },
-  ];
+    {
+      id: "t3",
+      name: "Sofia Gonzalez",
+      role: "Marketing Lead",
+      avatar: "SG",
+      email: "sofia@example.com",
+    },
+  ], []);
 
-  const collaborations = [
+  const collaborations = useMemo(() => [
     {
       id: "c1",
-      partner: "GreenLabs",
-      type: "Research",
+      partner: "Innovate Labs",
+      type: "R&D Partner",
       since: "2024-08-01",
-      note: "Joint R&D on sustainable packaging",
+      note: "Co-developing next-gen AI models.",
     },
     {
       id: "c2",
-      partner: "Alpha Marketing",
-      type: "Go-to-market",
+      partner: "Synergy Ventures",
+      type: "Go-to-Market",
       since: "2025-01-15",
-      note: "Co-marketing campaigns and growth ops",
+      note: "Accelerating market penetration.",
     },
-  ];
+  ], []);
 
   const ventures = useMemo(() => [
     {
       id: "p1",
-      name: "Venture: SupplyAI",
-      summary: "AI supply-demand forecasting for SMEs",
+      name: "Venture: Nexus AI",
+      summary: "AI-powered customer intelligence platform.",
       status: "Active",
       tech: ["Python", "FastAPI", "Postgres"],
-      stars: 42,
+      stars: 4.8,
     },
     {
       id: "p2",
-      name: "Venture: StudioSpace",
-      summary: "Collab platform for creative teams",
+      name: "Venture: Horizon",
+      summary: "Collaborative platform for distributed teams.",
       status: "Pilot",
       tech: ["React", "Node", "Supabase"],
-      stars: 18,
+      stars: 4.5,
     },
   ], []);
-
-
 
   const [query, setQuery] = useState("");
   const [projectFilter, setProjectFilter] = useState("");
@@ -83,34 +80,33 @@ export default function EntrepreneurDashboard() {
   }, [ventures, query, projectFilter]);
 
   return (
-    <div className="min-h-screen bg-rose-50 text-stone-800">
-      <header className="bg-white border-b border-rose-100 shadow-sm">
+    <div className="min-h-screen bg-background text-text-primary">
+      <header className="bg-background/80 backdrop-blur-sm sticky top-0 z-10 border-b border-highlight-button">
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-stone-800">Welcome, Entrepreneur</h1>
-            <p className="text-sm text-stone-600 mt-1">
-              Dashboard — founders, collaborations, ventures & code spaces
+            <h1 className="text-3xl font-bold text-text-primary">Entrepreneur Dashboard</h1>
+            <p className="text-sm text-text-secondary mt-1">
+              Manage your team, ventures, and collaborations.
             </p>
           </div>
           <div className="flex items-center gap-3">
             <div className="relative">
-              <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-rose-300" />
+              <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-primary-accent" />
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search venture, tech or summary..."
-                className="pl-10 pr-4 py-2 border border-rose-200 rounded-md bg-rose-50 focus:outline-none focus:ring-2 focus:ring-rose-300"
+                placeholder="Search ventures..."
+                className="pl-10 pr-4 py-2 border border-highlight-button rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-primary-accent"
               />
             </div>
             <select
               value={projectFilter}
               onChange={(e) => setProjectFilter(e.target.value)}
-              className="py-2 px-3 border border-rose-200 rounded-md bg-white text-stone-700"
+              className="py-2 px-3 border border-highlight-button rounded-lg bg-white text-text-secondary"
             >
-              <option value="">All statuses</option>
+              <option value="">All Statuses</option>
               <option value="Active">Active</option>
               <option value="Pilot">Pilot</option>
-              <option value="Archived">Archived</option>
             </select>
           </div>
         </div>
@@ -119,118 +115,111 @@ export default function EntrepreneurDashboard() {
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left column */}
-          <div className="space-y-6">
-            <div className="bg-white p-4 rounded-2xl border border-rose-100 shadow-sm">
-              <h2 className="text-lg font-semibold mb-3 flex items-center gap-2 text-stone-800">
-                Founders' Achievements <FiStar className="text-rose-400" />
-              </h2>
+          <div className="lg:col-span-1 space-y-6">
+            <div className="bg-white p-6 rounded-lg border border-highlight-button shadow-sm">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold flex items-center gap-2 text-text-primary">
+                  <FiUsers className="text-primary-accent" /> Team Members
+                </h2>
+                <button className="px-4 py-2 bg-primary-accent hover:bg-secondary-accent text-white text-sm font-semibold rounded-lg flex items-center gap-2 transition-colors">
+                  <FiPlus size={16} /> Invite
+                </button>
+              </div>
               <div className="space-y-4">
-                {founders.map((f) => (
+                {teamMembers.map((member) => (
                   <motion.div
-                    key={f.id}
-                    initial={{ opacity: 0, y: 6 }}
+                    key={member.id}
+                    initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.25 }}
-                    className="p-3 border border-rose-100 rounded-lg bg-rose-50"
+                    transition={{ duration: 0.3 }}
+                    className="flex items-center justify-between p-3 border border-highlight-button rounded-lg bg-background/50"
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center font-semibold text-rose-700">
-                        {f.avatar}
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-full bg-highlight-button flex items-center justify-center font-bold text-secondary-accent">
+                        {member.avatar}
                       </div>
                       <div>
-                        <div className="font-medium text-stone-800">{f.name}</div>
-                        <div className="text-sm text-stone-600">{f.role}</div>
+                        <div className="font-semibold text-text-primary">{member.name}</div>
+                        <div className="text-sm text-text-secondary">{member.role}</div>
                       </div>
                     </div>
-                    <ul className="mt-3 ml-2 list-disc list-inside text-sm text-stone-700">
-                      {f.achievements.map((a, i) => (
-                        <li key={i}>{a}</li>
-                      ))}
-                    </ul>
+                    <button className="p-2 text-text-secondary hover:text-text-primary">
+                        <FiMoreVertical size={20} />
+                    </button>
                   </motion.div>
                 ))}
               </div>
             </div>
 
-            <div className="bg-white p-4 rounded-2xl border border-rose-100 shadow-sm">
-              <h2 className="text-lg font-semibold mb-3 flex items-center gap-2 text-stone-800">
-                <FiUsers className="text-rose-400" /> Collaborations
+            <div className="bg-white p-6 rounded-lg border border-highlight-button shadow-sm">
+              <h2 className="text-xl font-semibold mb-4 flex items-center gap-2 text-text-primary">
+                <FiBriefcase className="text-primary-accent" /> Collaborations
               </h2>
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {collaborations.map((c) => (
-                  <div key={c.id} className="p-3 border border-rose-100 rounded-lg bg-rose-50">
+                  <div key={c.id} className="p-4 border border-highlight-button rounded-lg bg-background/50">
                     <div className="flex justify-between items-start">
                       <div>
-                        <div className="font-medium text-stone-800">{c.partner}</div>
-                        <div className="text-xs text-stone-500">
-                          {c.type} • since {new Date(c.since).toLocaleDateString()}
+                        <div className="font-semibold text-text-primary">{c.partner}</div>
+                        <div className="text-xs text-text-secondary uppercase tracking-wider">
+                          {c.type} • Since {new Date(c.since).toLocaleDateString()}
                         </div>
                       </div>
-                      <div className="text-sm text-stone-600">{c.note}</div>
                     </div>
+                    <p className="mt-2 text-sm text-text-secondary">{c.note}</p>
                   </div>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Right columns */}
+          {/* Right column */}
           <div className="lg:col-span-2 space-y-6">
-            <div className="bg-white p-4 rounded-2xl border border-rose-100 shadow-sm">
-              <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-stone-800 flex items-center gap-1">
-                  Ventures — Projects <FiGithub className="text-rose-400" />
+            <div className="bg-white p-6 rounded-lg border border-highlight-button shadow-sm">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold text-text-primary flex items-center gap-2">
+                  <FiStar className="text-primary-accent" /> Ventures & Projects
                 </h2>
-                <div className="text-sm text-stone-500">{filteredVentures.length} projects</div>
+                <span className="text-sm font-medium text-text-secondary bg-highlight-button/60 px-3 py-1 rounded-full">
+                  {filteredVentures.length} projects
+                </span>
               </div>
 
-              <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {filteredVentures.map((p) => (
                   <motion.div
                     key={p.id}
-                    whileHover={{ translateY: -6 }}
-                    className="p-4 border border-rose-100 rounded-lg bg-gradient-to-br from-white to-rose-50"
+                    whileHover={{ transform: "translateY(-5px)", boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}
+                    transition={{ duration: 0.2 }}
+                    className="p-4 border border-highlight-button rounded-lg bg-gradient-to-br from-white to-background/30"
                   >
                     <div className="flex justify-between items-start">
                       <div>
-                        <div className="font-semibold text-stone-800">{p.name}</div>
-                        <div className="text-sm text-stone-600 mt-1">{p.summary}</div>
-                        <div className="mt-3 text-xs text-stone-500">
-                          Tech: {p.tech.join(", ")}
-                        </div>
+                        <div className="font-semibold text-text-primary">{p.name}</div>
+                        <div className="text-sm text-text-secondary mt-1">{p.summary}</div>
                       </div>
-                      <div className="text-right">
-                        <div
-                          className={`px-2 py-1 rounded-md text-xs font-medium ${
-                            p.status === "Active"
-                              ? "bg-rose-100 text-rose-700"
-                              : "bg-rose-50 text-rose-500"
-                          }`}
-                        >
-                          {p.status}
-                        </div>
-                        <div className="mt-2 text-xs text-stone-500 flex items-center gap-1">
-                          <FiStar className="text-rose-400" /> {p.stars}
-                        </div>
+                      <div
+                        className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
+                          p.status === "Active"
+                            ? "bg-green-100 text-green-800"
+                            : "bg-blue-100 text-blue-800"
+                        }`}
+                      >
+                        {p.status}
                       </div>
                     </div>
-                    <div className="mt-4 flex gap-2">
-                      <button className="px-3 py-1 bg-rose-400 hover:bg-rose-500 text-white text-sm rounded-md">
-                        Open
-                      </button>
-                      <button className="px-3 py-1 border border-rose-200 text-stone-700 rounded-md text-sm">
-                        Invite
-                      </button>
-                      <button className="px-3 py-1 border border-rose-200 text-stone-700 rounded-md text-sm">
-                        Export
-                      </button>
+                    <div className="mt-4 flex items-center justify-between">
+                      <div className="text-xs text-text-secondary tracking-wide">
+                        Tech: {p.tech.join(", ")}
+                      </div>
+                      <div className="flex items-center gap-1 text-sm font-bold text-secondary-accent">
+                        <FiStar className="text-yellow-500" /> {p.stars}
+                      </div>
                     </div>
                   </motion.div>
                 ))}
               </div>
             </div>
-
-
           </div>
         </section>
       </main>
