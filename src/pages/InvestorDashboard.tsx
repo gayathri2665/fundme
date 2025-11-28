@@ -19,10 +19,10 @@ const InvestorDashboard: React.FC = () => {
   ];
 
   const demoPitches = [
-    { id: 1, name: "GreenFuture", video: "https://www.youtube.com/embed/ysz5S6PUM-U" },
+    { id: 1, name: "GreenFuture", video: "https://www.youtube.com/embed/S0lg3dvJzhY" },
     { id: 2, name: "HealthSync", video: "https://www.youtube.com/embed/tgbNymZ7vqY" },
-    { id: 3, name: "AI Logistics", video: "https://www.youtube.com/embed/G8RUWlEI48c" },
-    { id: 4, name: "Future of Work OS", video: "https://www.youtube.com/embed/_Ho3a3a6RJQ" },
+    { id: 3, name: "AI Logistics", video: "https://www.youtube.com/embed/5WQgLboa_I8" },
+    { id: 4, name: "Future of Work OS", video: "https://www.youtube.com/embed/6zThVA-TTqw" },
   ];
 
   return (
