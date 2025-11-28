@@ -63,6 +63,34 @@ export default function EntrepreneurDashboard() {
     },
   ], []);
 
+  const roadmap = useMemo(() => [
+    {
+      quarter: "Q1 2026",
+      title: "Smart Insights v2",
+      description: "AI-powered analytics upgrade with faster predictions.",
+    },
+    {
+      quarter: "March 2026",
+      title: "Mobile App Beta Release",
+      description: "Early access for selected teams and partners.",
+    },
+    {
+      quarter: "April 2026",
+      title: "AI Assistant Integration",
+      description: "Conversational task management and smart suggestions.",
+    },
+    {
+      quarter: "Mid 2026",
+      title: "Collaboration Hub 2.0",
+      description: "Advanced team roles, workflows, and file-sharing improvements.",
+    },
+    {
+      quarter: "Late 2026",
+      title: "Venture Performance Dashboard",
+      description: "Real-time metrics, funding insights, and growth tracking.",
+    },
+  ], []);
+
   const [query, setQuery] = useState("");
   const [projectFilter, setProjectFilter] = useState("");
 
@@ -216,6 +244,30 @@ export default function EntrepreneurDashboard() {
                         <FiStar className="text-yellow-500" /> {p.stars}
                       </div>
                     </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* Roadmap / Upcoming Launches */}
+            <div className="bg-white p-6 rounded-lg border border-highlight-button shadow-sm">
+              <h2 className="text-xl font-semibold mb-4 flex items-center gap-2 text-text-primary">
+                <FiBriefcase className="text-primary-accent" /> Roadmap / Upcoming Launches
+              </h2>
+              <div className="space-y-4">
+                {roadmap.map((item, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="p-4 border border-highlight-button rounded-lg bg-background/50"
+                  >
+                    <div className="flex justify-between items-start mb-1">
+                      <h3 className="font-semibold text-text-primary">{item.title}</h3>
+                      <span className="text-sm text-text-secondary">{item.quarter}</span>
+                    </div>
+                    <p className="text-sm text-text-secondary">{item.description}</p>
                   </motion.div>
                 ))}
               </div>
