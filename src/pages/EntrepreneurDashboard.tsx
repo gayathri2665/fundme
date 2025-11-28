@@ -1,8 +1,10 @@
 import React, { useMemo, useState } from "react";
-import { FiSearch, FiUsers, FiBriefcase, FiPlus, FiStar, FiMoreVertical } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import { FiSearch, FiUsers, FiBriefcase, FiPlus, FiStar, FiMoreVertical, FiChevronLeft } from "react-icons/fi";
 import { motion } from "framer-motion";
 
 export default function EntrepreneurDashboard() {
+  const navigate = useNavigate();
   const teamMembers = useMemo(() => [
     {
       id: "t1",
@@ -110,14 +112,20 @@ export default function EntrepreneurDashboard() {
   return (
     <div className="min-h-screen bg-background text-text-primary">
       <header className="bg-background/80 backdrop-blur-sm sticky top-0 z-10 border-b border-highlight-button">
-        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          <div>
+        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex items-center justify-between relative">
+          <button 
+            onClick={() => navigate(-1)} 
+            className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full hover:bg-highlight-button"
+          >
+            <FiChevronLeft className="w-6 h-6 text-text-secondary" />
+          </button>
+          <div className="text-center w-full">
             <h1 className="text-3xl font-bold text-text-primary">Entrepreneur Dashboard</h1>
             <p className="text-sm text-text-secondary mt-1">
               Manage your team, ventures, and collaborations.
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-3">
             <div className="relative">
               <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-primary-accent" />
               <input

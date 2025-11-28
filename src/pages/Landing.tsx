@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Lightbulb, ArrowRight, TrendingUp, Users, Zap, Shield, X } from 'lucide-react';
+import { Lightbulb, ArrowRight, TrendingUp, Users, Zap, Shield, X, MessageSquare } from 'lucide-react';
 
 const features = [
   { 
@@ -23,6 +23,24 @@ const features = [
     title: 'Secure', 
     desc: 'Your data is protected and encrypted for safe fundraising.' 
   },
+];
+
+const testimonials = [
+  {
+    name: "Aisha Khan",
+    role: "Founder, Eco-Innovate",
+    quote: "FundMeUp was a game-changer for us. We connected with investors who truly believe in our vision and secured the funding we needed in just six weeks."
+  },
+  {
+    name: "David Chen",
+    role: "Angel Investor",
+    quote: "The quality of startups on this platform is outstanding. I've made three investments and have been impressed with the founders' dedication and progress."
+  },
+  {
+    name: "Maria Rodriguez",
+    role: "CEO, TechSphere",
+    quote: "An incredible platform for both founders and investors. The process is transparent, efficient, and supportive from start to finish."
+  }
 ];
 
 export function Landing() {
@@ -73,7 +91,7 @@ export function Landing() {
               onClick={() => navigate('/auth')}
               className="px-8 py-3 bg-primary-accent hover:bg-secondary-accent text-white rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors"
             >
-              Start Your Campaign <ArrowRight className="w-5 h-5" />
+              Join FundMeUp Today <ArrowRight className="w-5 h-5" />
             </button>
             <button
               onClick={() => navigate('/campaigns')}
@@ -121,7 +139,7 @@ export function Landing() {
           </div>
         )}
 
-        <div className="bg-highlight-button/50 border border-primary-accent/30 rounded-lg p-12 text-center">
+        <div className="bg-highlight-button/50 border border-primary-accent/30 rounded-lg p-12 text-center mb-20">
           <h2 className="text-3xl font-bold mb-4">Ready to Make an Impact?</h2>
           <p className="text-text-secondary mb-8 max-w-xl mx-auto">
             Whether you're an entrepreneur with a groundbreaking idea or an investor looking for the next big opportunity, FundMeUp is your platform.
@@ -132,6 +150,24 @@ export function Landing() {
           >
             Join FundMeUp Today
           </button>
+        </div>
+
+        {/* Testimonials Section */}
+        <div className="text-center">
+            <h2 className="text-3xl font-bold mb-4">Trusted by Innovators</h2>
+            <p className="text-text-secondary mb-12 max-w-2xl mx-auto">
+                Hear what our community is saying about their success on FundMeUp.
+            </p>
+            <div className="grid md:grid-cols-3 gap-8">
+                {testimonials.map((testimonial, i) => (
+                    <div key={i} className="bg-white p-8 rounded-lg border border-highlight-button shadow-sm text-left">
+                        <MessageSquare className="w-8 h-8 text-primary-accent mb-4" />
+                        <p className="text-text-secondary mb-4">"{testimonial.quote}"</p>
+                        <p className="font-semibold text-text-primary">{testimonial.name}</p>
+                        <p className="text-sm text-text-secondary">{testimonial.role}</p>
+                    </div>
+                ))}
+            </div>
         </div>
       </div>
     </div>

@@ -1,6 +1,17 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
+import { ChevronLeft } from 'lucide-react';
 
 const InvestorDashboard: React.FC = () => {
+  const navigate = useNavigate();
+  const { signOut } = useAuth();
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate('/');
+  };
+
   const mockTransactions = [
     { id: 1, startup: "EcoGrow", amount: "$5,000", date: "Oct 22, 2025", status: "Completed" },
     { id: 2, startup: "TechNova", amount: "$2,500", date: "Oct 28, 2025", status: "Pending" },
@@ -10,14 +21,22 @@ const InvestorDashboard: React.FC = () => {
   const demoPitches = [
     { id: 1, name: "GreenFuture", video: "https://www.youtube.com/embed/ysz5S6PUM-U" },
     { id: 2, name: "HealthSync", video: "https://www.youtube.com/embed/tgbNymZ7vqY" },
+    { id: 3, name: "AI Logistics", video: "https://www.youtube.com/embed/G8RUWlEI48c" },
+    { id: 4, name: "Future of Work OS", video: "https://www.youtube.com/embed/_Ho3a3a6RJQ" },
   ];
 
   return (
     <div className="min-h-screen bg-background text-text-primary flex flex-col">
       {/* Header */}
-      <header className="bg-white shadow-sm p-6 border-b border-highlight-button">
+      <header className="bg-white shadow-sm p-6 border-b border-highlight-button relative">
+        <button 
+          onClick={() => navigate(-1)} 
+          className="absolute left-6 top-1/2 -translate-y-1/2 p-2 rounded-full hover:bg-highlight-button"
+        >
+          <ChevronLeft className="w-6 h-6 text-text-secondary" />
+        </button>
         <h1 className="text-3xl font-bold text-center text-text-primary">
-          Welcome, Investor 👋
+          Welcome, Investor
         </h1>
         <p className="text-center text-text-secondary mt-2">
           Explore 3D pitch rooms, view startup demos, and track your investments.
@@ -28,7 +47,7 @@ const InvestorDashboard: React.FC = () => {
       <main className="flex-1 container mx-auto px-6 py-10 space-y-12">
         {/* 3D Pitch Room */}
         <section className="bg-white rounded-lg border border-highlight-button shadow-sm p-6">
-          <h2 className="text-2xl font-semibold text-secondary-accent mb-4">🚀 3D Pitch Room</h2>
+          <h2 className="text-2xl font-semibold text-secondary-accent mb-4">3D Pitch Room</h2>
           <p className="text-text-secondary mb-4">
             Enter the immersive pitch room where founders present their ideas in real-time.
           </p>
@@ -46,7 +65,7 @@ const InvestorDashboard: React.FC = () => {
 
         {/* Transaction History */}
         <section className="bg-white rounded-lg border border-highlight-button shadow-sm p-6">
-          <h2 className="text-2xl font-semibold text-secondary-accent mb-4">💳 Transaction History</h2>
+          <h2 className="text-2xl font-semibold text-secondary-accent mb-4">Transaction History</h2>
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
@@ -79,7 +98,7 @@ const InvestorDashboard: React.FC = () => {
 
         {/* Demo Pitches */}
         <section className="bg-white rounded-lg border border-highlight-button shadow-sm p-6">
-          <h2 className="text-2xl font-semibold text-secondary-accent mb-4">🎥 Demo Pitches</h2>
+          <h2 className="text-2xl font-semibold text-secondary-accent mb-4">Demo Pitches</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {demoPitches.map((pitch) => (
               <div key={pitch.id} className="bg-background/50 p-4 rounded-xl shadow-sm hover:shadow-md transition">
@@ -100,7 +119,10 @@ const InvestorDashboard: React.FC = () => {
 
         {/* Logout */}
         <div className="text-center mt-8">
-          <button className="bg-primary-accent text-white px-6 py-2 rounded-lg hover:bg-secondary-accent transition-colors">
+          <button 
+            onClick={handleLogout}
+            className="bg-primary-accent text-white px-6 py-2 rounded-lg hover:bg-secondary-accent transition-colors"
+          >
             Logout
           </button>
         </div>
