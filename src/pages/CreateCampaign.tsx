@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Sparkles } from 'lucide-react'; // Import Sparkles icon
 import { createCampaign } from '../lib/api';
 
 export function CreateCampaign() {
@@ -17,6 +17,7 @@ export function CreateCampaign() {
     image_url: '',
   });
   const [loading, setLoading] = useState(false);
+  const [loadingSummary, setLoadingSummary] = useState(false); // New loading state for summarizer
   const [error, setError] = useState('');
 
   if (profile?.role !== 'entrepreneur') {
@@ -38,6 +39,36 @@ export function CreateCampaign() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSummarize = async () => {
+    if (!formData.description) {
+      setError('Description cannot be empty for summarization.');
+      return;
+    }
+    setLoadingSummary(true);
+    setError('');
+    try {
+      const response = await fetch('/python-api/summarize', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ pitch_text: formData.description }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to summarize pitch.');
+      }
+
+      const data = await response.json();
+      setFormData((prev) => ({ ...prev, description: data.summary }));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to summarize pitch.');
+    } finally {
+      setLoadingSummary(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -109,9 +140,19 @@ export function CreateCampaign() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-text-primary mb-2">
-                Description *
-              </label>
+              <div className="flex justify-between items-center mb-2">
+                <label className="block text-sm font-semibold text-text-primary">
+                  Description *
+                </label>
+                <button
+                  type="button"
+                  onClick={handleSummarize}
+                  disabled={loadingSummary}
+                  className="flex items-center gap-1 px-3 py-1 bg-highlight-button text-text-secondary rounded-full text-xs font-medium hover:bg-highlight-button/70 disabled:opacity-50 transition-colors"
+                >
+                  {loadingSummary ? 'Summarizing...' : <><Sparkles className="w-4 h-4" /> Summarize</>}
+                </button>
+              </div>
               <textarea
                 name="description"
                 value={formData.description}

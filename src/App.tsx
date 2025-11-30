@@ -1,14 +1,17 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { useAuth } from './hooks/useAuth';
-import { Landing } from './pages/Landing';
-import { Auth } from './pages/Auth';
+
+
 import { Campaigns } from './pages/Campaigns';
-import { CampaignDetail } from './pages/CampaignDetail';
-import { CreateCampaign } from './pages/CreateCampaign';
+import { Auth } from './pages/Auth';
 import { Dashboard } from './pages/Dashboard';
-import { Profile } from './pages/Profile';
-import { Investors } from './pages/Investors.jsx';
+import Investor from './pages/Investor';
+import Entrepreneur from './pages/Entrepreneur';
+import Freelancer from './pages/Freelancer';
+import { Landing } from './pages/Landing';
+import Chatbot from './components/Chatbot';
+import FreelancerProfileForm from './pages/FreelancerProfileForm';
 
 function AppRoutes() {
   const { loading } = useAuth();
@@ -25,14 +28,25 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<Landing />} />
       <Route path="/auth" element={<Auth />} />
+      <Route path="/signup" element={<Auth />} />
+      <Route path="/signin" element={<Auth />} />
       <Route path="/campaigns" element={<Campaigns />} />
-      <Route path="/campaigns/:id" element={<CampaignDetail />} />
-      <Route path="/campaigns/create" element={<CreateCampaign />} />
       <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/investors" element={<Investors />} />
+      <Route path="/investor" element={<Investor />} />
+      <Route path="/entrepreneur" element={<Entrepreneur />} />
+      <Route path="/freelancer" element={<Freelancer />} />
+      <Route path="/freelancer-profile-form" element={<FreelancerProfileForm />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
+  );
+}
+
+function AppContent() {
+  return (
+    <>
+      <AppRoutes />
+      <Chatbot />
+    </>
   );
 }
 
@@ -40,7 +54,7 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <AppRoutes />
+        <AppContent />
       </AuthProvider>
     </BrowserRouter>
   );

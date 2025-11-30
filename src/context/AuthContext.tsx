@@ -1,23 +1,16 @@
 import React, { createContext, useEffect, useState } from 'react';
 
-
-
-import { supabase } from '../lib/supabase';
-
 interface User {
   id: string;
   email?: string;
-  user_metadata: {
-    [key: string]: unknown;
-    role?: 'entrepreneur' | 'investor' | 'freelancer';
-    fullName?: string;
-  };
+  fullName?: string;
+  role?: 'entrepreneur' | 'investor' | 'freelancer';
 }
+
 interface Profile {
   id: string;
-  full_name?: string;
+  fullName?: string;
   role?: 'entrepreneur' | 'investor' | 'freelancer';
-  // Add other profile fields if they exist in your 'profiles' table
 }
 
 interface AuthContextType {
@@ -27,7 +20,6 @@ interface AuthContextType {
   signUp: (email: string, password: string, metadata: { role: string; fullName: string }) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => void;
-  fetchProfile: (userId: string) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -38,94 +30,74 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Temporarily bypass getSession() for debugging
+    const user = localStorage.getItem('user');
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      // Ensure profile is explicitly structured
+      setProfile({
+        id: parsedUser.id,
+        fullName: parsedUser.fullName,
+        role: parsedUser.role,
+      });
+      setUser(parsedUser); // User can be the raw parsed data
+    }
     setLoading(false);
-
-    // Original getSession() and authListener code will be commented out
-    /*
-    const getSession = async () => {
-      try {
-        const { data: { session }, error } = await supabase.auth.getSession();
-        if (error) {
-          console.error("Error getting session:", error);
-        }
-        setUser(session?.user ?? null);
-        if (session?.user) {
-          await fetchProfile(session.user.id);
-        }
-      } catch (error) {
-        console.error("Unexpected error in getSession:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getSession();
-
-    const { data: authListener } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        await fetchProfile(session.user.id);
-      }
-    });
-
-    return () => {
-      authListener.subscription.unsubscribe();
-    };
-    */
   }, []);
 
-
-
-  /*
-  const fetchProfile = async (userId: string) => {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', userId)
-      .single();
-    
-    if (error) {
-      console.error('Error fetching profile:', error);
-    }
-    setProfile(data);
-  };
-  */
-
   const signUp = async (email: string, password: string, metadata: { role: string; fullName: string }) => {
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          role: metadata.role,
-          full_name: metadata.fullName,
-        }
-      }
+    const response = await fetch('/api/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password, ...metadata }),
     });
 
-    if (error) {
-      throw error;
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message);
     }
-    // The onAuthStateChange listener will handle setting the user and profile.
+
+    const userData = await response.json();
+    setUser(userData);
+    // Ensure profile is explicitly structured
+    setProfile({
+      id: userData.id,
+      fullName: userData.fullName,
+      role: userData.role,
+    });
+    localStorage.setItem('user', JSON.stringify(userData));
   };
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
+    const response = await fetch('/api/signin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
     });
 
-    if (error) {
-      throw error;
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message);
     }
-    // The onAuthStateChange listener will handle setting the user and profile.
+
+    const userData = await response.json();
+    setUser(userData);
+    // Ensure profile is explicitly structured
+    setProfile({
+      id: userData.id,
+      fullName: userData.fullName,
+      role: userData.role,
+    });
+    localStorage.setItem('user', JSON.stringify(userData));
   };
 
-  const signOut = async () => {
-    await supabase.auth.signOut();
+  const signOut = () => {
     setUser(null);
     setProfile(null);
+    localStorage.removeItem('user');
   };
 
   return (

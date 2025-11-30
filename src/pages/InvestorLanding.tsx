@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Briefcase, BarChart2, ShieldCheck, Users, Rocket, Lightbulb, ArrowRight, X } from 'lucide-react';
+import { Briefcase, BarChart2, ShieldCheck, Users, Rocket, ArrowRight } from 'lucide-react';
 
 const highlights = [
   {
@@ -46,7 +46,7 @@ const partners = [
     { name: 'Future Founders', logo: '🌟' },
 ];
 
-export function Investors() {
+export default function InvestorLanding() {
   const navigate = useNavigate();
   const [showPitches, setShowPitches] = useState(false);
   const [selectedPitch, setSelectedPitch] = useState(null);

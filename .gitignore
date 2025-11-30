@@ -21,3 +21,5 @@ dist-ssr
 *.sln
 *.sw?
 .env
+freelancers.json
+users.json

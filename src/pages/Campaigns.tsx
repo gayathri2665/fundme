@@ -16,19 +16,20 @@ export function Campaigns() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchCampaigns();
+    const loadCampaigns = async () => {
+      try {
+        const data = await fetchMockCampaigns();
+        setCampaigns(data || []);
+      } catch (error) {
+        console.error('Error fetching campaigns:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadCampaigns();
   }, []);
 
-  const fetchCampaigns = async () => {
-    try {
-      const data = await fetchMockCampaigns();
-      setCampaigns(data || []);
-    } catch (error) {
-      console.error('Error fetching campaigns:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+
 
   const filteredCampaigns = campaigns.filter((campaign) => {
     const matchesSearch = campaign.title.toLowerCase().includes(searchTerm.toLowerCase()) ||

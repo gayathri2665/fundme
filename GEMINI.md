@@ -5,11 +5,34 @@
 This project is a crowdfunding platform called "FundMeUp". It allows entrepreneurs to create funding campaigns and investors to back them. The platform is built using the following technologies:
 
 *   **Frontend:** React, Vite, TypeScript, Tailwind CSS
-*   **Backend:** Supabase (Authentication, Database)
+*   **Backend:** Express.js (initially Supabase)
 *   **Routing:** React Router
 *   **Icons:** Lucide React
 
 The database schema includes tables for user profiles, campaigns, campaign updates, backers, and messages. Row Level Security (RLS) is enabled on all tables to ensure data privacy and security.
+
+## Project Status
+
+### Local Authentication
+
+The project has been updated to use a local authentication system instead of Supabase. A local server (`server.mjs`) has been created to handle sign-up and sign-in functionality. User data is stored in a local `users.json` file.
+
+**Note:** This is a temporary solution for development and is not suitable for production.
+
+### Mocked Campaign Data
+
+The campaign data is currently being mocked in `src/lib/api.ts`. The `fetchCampaigns` and `fetchCampaignById` functions return static data, and the images are placeholders from the `public/assets` directory.
+
+### Python Backend
+
+The AI assistant is powered by a Python backend that uses the Gemini API. The backend is located in the `python-backend` directory.
+To run the Python backend, you need to set the `GOOGLE_API_KEY` environment variable.
+
+### Anomalies and Inconsistencies
+
+*   **Incomplete Investor Onboarding:** The "Investor" role has a multi-step onboarding process that is not fully implemented. The `InvestorStep.tsx` component and the `handleInvestorStepComplete` function in `Auth.tsx` are incomplete.
+*   **Inconsistent File Extensions:** The `src/pages` directory contains a mix of `.tsx` and `.jsx` files. The project should be standardized to use `.tsx` for all React components.
+*   **`useAuth` Hook:** The `useAuth` hook in `src/hooks/useAuth.ts` is a simple context wrapper. All authentication logic is contained within `src/context/AuthContext.tsx`, which could be confusing.
 
 ## Building and Running
 
@@ -46,50 +69,12 @@ To build and run the project, use the following commands:
 *   **Testing:** There are no explicit testing practices defined in the project.
 *   **Contribution:** There are no contribution guidelines defined in the project.
 
-## Recent Updates
-
-### Mock Authentication
-*   Implemented mock authentication to bypass the sign-in process, allowing users to access the app with any email and password.
-*   The "Create Account" and "Sign In" buttons now navigate to the dashboard without requiring authentication.
-
-### Feature Box Modals
-*   Added modals to the feature boxes on the landing page ("Fast & Easy", "Global Network", "Real Growth", "Secure").
-*   When a feature is clicked, a modal appears with a brief description of the feature.
-
-### Sign-Up Form
-*   Added a "Freelancer" role to the sign-up form, in addition to the existing "Entrepreneur" and "Investor" roles.
-
-### Bug Fixes and Code Cleanup
-*   Fixed all broken buttons and navigation links throughout the app.
-*   Resolved all linting errors and warnings, ensuring a clean and consistent codebase.
-*   Updated the routing to remove authentication-based redirects, making all pages accessible without signing in.
-
-### New Investors Page
-*   Created a new "Investors" page at the `/investors` route, designed to attract and inform potential investors.
-*   The page is fully responsive and consistent with the existing design language of the application.
-*   **Page Sections:**
-    *   **Header:** A large, welcoming header with a clear value proposition.
-    *   **Key Highlights:** A grid layout showcasing the platform's key benefits for investors.
-    *   **Pitch Demo:** An interactive section allowing users to view and get summaries of sample pitches.
-    *   **CTA:** Clear calls-to-action to guide users to the next steps.
-    *   **Trust Section:** A section building credibility with logos of partners and key metrics.
-*   No existing pages, routes, or logic were modified or broken during the implementation.
-*   Performance and design consistency were maintained.
-
 ---
 **Changelog:**
+- Switched to a local authentication system using `server.mjs` and `users.json`.
+- Mocked campaign data in `src/lib/api.ts` to use local placeholder images.
+- Fixed a bug in the `Auth.tsx` component that was causing the page to crash.
+- Resolved all linting errors.
 - Added `Investors.tsx` page with complete layout and functionality.
 - Updated `App.tsx` to include the new `/investors` route.
 - Added a navigation link to the Investors page in `Landing.tsx`.
-
-### New Investors Page (JavaScript)
-*   Created a new `Investors.jsx` page to provide a fast, responsive, and theme-consistent experience for potential investors.
-*   The page includes a Header, Key Highlights, an interactive Pitch Demo, CTA buttons, and a Trust Section.
-*   Implemented using functional components and hooks for minimal, efficient React code.
-*   Added a route for `/investors` in `App.tsx` without modifying existing navigation links, per instructions.
-*   The implementation was restricted to the `src/` directory and `GEMINI.md`.
-
----
-**Changelog (Investors.jsx):**
-- Created `src/pages/Investors.jsx`.
-- Updated `App.tsx` to route `/investors` to the new `.jsx` component.

@@ -1,1 +1,0 @@
-// This file is no longer used for authentication as we are using a local backend.
